@@ -1,11 +1,8 @@
 from django.contrib import admin
 
-from recipes.views import recipes
-
 from .models import Category, Recipe
 
 
-# Register your models here.
 class CategoryAdmin(admin.ModelAdmin):
     ...
 
