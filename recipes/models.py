@@ -1,8 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
 
-# Create your models here.
-
 
 class Category(models.Model):
     name = models.CharField(max_length=65)
@@ -11,12 +9,7 @@ class Category(models.Model):
         return self.name
 
 
-class Recipe(models.Model):  # Model é como se fosse a tabela do bd
-    # é como se fosse models.coluna do tipo char ..
-
-    def __str__(self):
-        return self.title
-
+class Recipe(models.Model):
     title = models.CharField(max_length=65)
     description = models.CharField(max_length=165)
     slug = models.SlugField()
@@ -29,11 +22,15 @@ class Recipe(models.Model):  # Model é como se fosse a tabela do bd
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=False)
-    cover = models.ImageField(upload_to='recipes/covers/%Y/%m/%d/')
-
+    cover = models.ImageField(
+        upload_to='recipes/covers/%Y/%m/%d/', blank=True, default='')
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True,
-        default=None,)
-
+        default=None,
+    )
     author = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True)
+        User, on_delete=models.SET_NULL, null=True
+    )
+
+    def __str__(self):
+        return self.title
